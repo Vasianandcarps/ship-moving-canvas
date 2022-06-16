@@ -18,17 +18,17 @@
 		var squarePosition_x = 10;
 		var squarePosition_y = 0;
         let timer;
-        let speed = 1;
-      
+        let speed ;
+      let marker;
 	 	window.onload = function() {
 		   // Определение контекста рисования
 		   canvas = document.getElementById("ship");
 		   context = canvas.getContext("2d");
 		   // Обновляем холст через 0.02 секунды
-		 setTimeout("drawFrame()", 20);
+		drawFrame()
 		}
       
-		function drawFrame(speed) {
+		function drawFrame(speed=1) {
           
 		   // Очистить холст
 		   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -69,71 +69,27 @@
     
 		   // Перемещаем квадратик вниз на 1 пиксел (где он будет
 		   // прорисован в следующем кадре)
-		         squarePosition_x += speed;
+           if (marker==1){
+ squarePosition_x += speed;
+           }else if(marker==0){
+            squarePosition_x -= speed;
+           }
+		        
 		   // Рисуем следующий кадр через 20 миллисекунд
 		  // setTimeout("drawFrame()", 20);
-          if( squarePosition_x==700){
+          if( squarePosition_x==700 || squarePosition_x==10){
               stop();
           }
 	   	//console.log(squarePosition_x )
           
     }
-            function drawFrame1(speed) {
-		   // Очистить холст
-		   context.clearRect(0, 0, canvas.width, canvas.height);
-		   // Вызываем метод beginPath(), чтобы убедиться,
-		   // что мы не рисуем часть уже нарисованного содержимого холста
-		   context.beginPath();
-		   // Рисуем квадратик размером 10x10 пикселов в текущей позиции
-		// Рисуем парус 
-        context.beginPath();
-    context.fillStyle = "#fc0";
-    context.moveTo(squarePosition_x + 100, 70); 
-    context.lineTo(squarePosition_x + 60, 20); 
-    context.lineTo(squarePosition_x +60, 80); 
-    context.fill();
-   
-    // Рисуем мачту 
-    context.beginPath();
-    context.fillStyle = "#a60";
-    context.fillRect(squarePosition_x + 60, 5, 5, 65);
-    // Рисуем флаг 
-    context.beginPath();
-    context.fillStyle = "#e49";
-    context.fillRect(squarePosition_x + 60, 5, 20, 10);
-     // Рисуем палубу
-         context.beginPath();
-    context.fillStyle = "#ccf";
-    context.moveTo(squarePosition_x + 0, 70); 
-    context.lineTo(squarePosition_x +30, 100); 
-    context.lineTo(squarePosition_x +70, 100); 
-    context.lineTo(squarePosition_x +100, 70); 
-    
-    context.fill(); 
-     squarePosition_x -= 1;
-    // Пишем название
-    context.fillStyle = '#00f';
-    context.font = 'italic 20px sans-serif';
-    context.textBaseline = 'top';
-    context.fillText('SHIP', squarePosition_x + 25, 75);
-    squarePosition_x -= speed;
-   
-    if( squarePosition_x==10){
-              stop();
-          }
-
-		   // Перемещаем квадратик вниз на 1 пиксел (где он будет
-		   // прорисован в следующем кадре)
-		       
-		   // Рисуем следующий кадр через 20 миллисекунд
-		  // setTimeout("drawFrame()", 20);
-          console.log(squarePosition_x )
-	   	}
+            
       function start() {
           
           stop();
           drawFrame() 
-          timer=setInterval(drawFrame.bind(set()), 20);
+          timer=setInterval(drawFrame.bind(this.speed), speed);
+marker=1;
  
       }
       function stop() {
@@ -142,12 +98,13 @@
       }
       function reverse() {
         stop();
-        drawFrame1()
-        timer=setInterval(drawFrame1.bind(set()), 20);
+        drawFrame()
+        timer=setInterval(drawFrame.bind(this.speed), speed);
+        marker=0;
       }
 
-      function set(speed) {
-    speed= document.getElementById("speed").value
+      function set() {
+    speed= +document.getElementById("speed").value
     console.log(speed)
     }
   
