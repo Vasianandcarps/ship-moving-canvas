@@ -87,7 +87,7 @@
       function start() {
           
           stop();
-          drawFrame() 
+         
           timer=setInterval(drawFrame.bind(this.speed), speed);
 marker=1;
  
@@ -98,7 +98,6 @@ marker=1;
       }
       function reverse() {
         stop();
-        drawFrame()
         timer=setInterval(drawFrame.bind(this.speed), speed);
         marker=0;
       }
